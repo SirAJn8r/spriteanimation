@@ -39,3 +39,8 @@ class Player(pg.sprite.Sprite):
             self.image = pg.transform.flip(self.image, True, False)
         self.rect.x += self.vx
         self.rect.y += self.vy
+
+        if self.rect.bottom < 0:
+            self.rect.y += height+100
+        if self.rect.top > height:
+            self.rect.y -= height+100

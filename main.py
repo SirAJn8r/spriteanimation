@@ -1,3 +1,4 @@
+import math
 import pygame as pg
 from pygame.locals import *
 import sys
@@ -25,7 +26,7 @@ for i in range(numboulders):
     bgroup.add(temp)
 
 def main():
-    global screen, color
+    global screen, color, numboulders
     while True:
         clock.tick(60)
         for event in pg.event.get():
@@ -50,22 +51,19 @@ def main():
                 if event.key == K_SPACE:
                     p.space = False
         p.update()
-        for i in range(len(boulders)):
-            boulders[i].update()
-        while True:
-            temp = True
-            for i in range(len(boulders)):
-                if boulders[i].rect.right < 0:
-                    boulders.pop(i)
-                    temp = False
-                    break
-            if temp:
-                break
+
+        for b in boulders:
+            b.update()
+            d = math.sqrt((b.rect.x - p.rect.x) ** 2 + (b.rect.y - p.rect.y) ** 2)
+            if d < 60:
+                numboulders += 1
+                b.reset
         if len(boulders) < numboulders:
-            for i in range(numboulders-len(boulders)):
+            for i in range(numboulders - len(boulders)):
                 temp = Rock()
                 boulders.append(temp)
-                bgroup.add(temp)
+                bgroup.add(b)
+
         screen.fill(color)
         pgroup.draw(screen)
         bgroup.draw(screen)
